@@ -1,6 +1,8 @@
 import requests
 import time
 import datetime
+from yahoo_finance import Share
+from pprint import pprint
 
 class NewsAPI:
 	def __init__(self,ms,ds,ys,me,de,ye,company,apikey):
@@ -51,3 +53,15 @@ class NewsAPI:
 			sentimentzzz = sent['source']['enriched']['url']['enrichedTitle']['docSentiment']['score']
 			sentiment.append(sentimentzzz)
 		return sentiment
+		
+	 def getClosingPrice(self):
+	 	closing = []
+	 	shareName = Share(self.company)
+
+	 	for t in times:
+	 		startDate = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d')
+	 		endDate=startDate
+	 		hist = shareName.get_historical(startDate, endDate)
+	 		closingPrice = hist[0].['Close']
+	 		closing.append(closingPrice)
+	 	return closing
