@@ -31,7 +31,8 @@ class NewsAPI:
 		url = 'https://access.alchemyapi.com/calls/data/GetNews?apikey=' + self.apikey + '&return=enriched.url.enrichedTitle.docSentiment&start=' + startunix + '&end=' + endunix + '&q.enriched.url.enrichedTitle.entities.entity=|text=' + self.company + ',type=company|&q.enriched.url.enrichedTitle.docSentiment.type=positive&q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label=finance&count=25&outputMode=json'
 
 		self.raw = requests.get(url)
-
+	
+		#I will change with for loop, so that we can have a set number of try to get the info given the response is taking long
 		time.sleep(2)
 		if self.raw.status_code == 200:
 			self.rawjson = self.raw.json()
