@@ -1,3 +1,8 @@
+#1.  call the default constructor: variable = NewsAPI.NewsAPI(1,1,2015,3,1,2015,'GOOGLE','35b806d26e76f895fe31669dea30f528c36c94e6')
+#2.  try to get data : variable.startGetData(), it will returns success if it is works or error (Check API key if it returns error)
+#3.  get the sentiment score in list format double: variable.getTimeStamp()
+#4.  get the price in list format double: variable.getSentiment()
+
 import requests
 import time
 import datetime
