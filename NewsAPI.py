@@ -20,7 +20,8 @@ class NewsAPI:
 		self.rawdata = ''
 		self.rawjson = ''
 		self.results = ''
-
+		self.times = ''
+		
 	def startGetData(self):
 		start = datetime.date(self.ys,self.ms,self.ds)
 		startunix = str(time.mktime(start.timetuple()))[0:10]
@@ -46,6 +47,7 @@ class NewsAPI:
 		for time in self.results:
 				timeszzz = time['timestamp']
 				times.append(timeszzz)
+		self.times = times
 		return times
 
 	def getSentiment(self):
@@ -56,13 +58,18 @@ class NewsAPI:
 		return sentiment
 		
 	 def getClosingPrice(self):
-	 	closing = []
 	 	shareName = Share(self.company)
-
-	 	for t in times:
-	 		startDate = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d')
+	 	startDate=''
+	 	endDate=''
+	 	hist=''
+	 	for t in self.times:
+	 		startDate = str(datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d'))
 	 		endDate=startDate
 	 		hist = shareName.get_historical(startDate, endDate)
-	 		closingPrice = hist[0].['Close']
-	 		closing.append(closingPrice)
-	 	return closing
+	 		if(len(hist)==0):
+	 			closingPrice = '0'
+	 			closing.append(closingPrice)
+	 		else:	
+	 			closingPrice = hist[0]['Close']
+	 			closing.append(closingPrice)
+	 	return closingPrice
