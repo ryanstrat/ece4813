@@ -3,6 +3,10 @@
 #3.  get the sentiment score in list format double: variable.getTimeStamp()
 #4.  get the price in list format double: variable.getSentiment()
 
+#Verison 1.0: Only do the NewsAPI (Get only the sentimentscore and timestamp)
+#Version 1.1: Get the stock price
+#Version 1.2: Get the sentiment score and type
+
 import requests
 import time
 import datetime
@@ -36,7 +40,7 @@ class NewsAPI:
 		end = datetime.date(self.ye,self.me,self.de)
 		endunix = str(time.mktime(end.timetuple()))[0:10]
 		#Sent the API address
-		url = 'https://access.alchemyapi.com/calls/data/GetNews?apikey=' + self.apikey + '&return=enriched.url.enrichedTitle.docSentiment&start=' + startunix + '&end=' + endunix + '&q.enriched.url.enrichedTitle.entities.entity=|text=' + self.company + ',type=company|&q.enriched.url.enrichedTitle.docSentiment.type=positive&q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label=finance&count=25&outputMode=json'
+		url = 'https://access.alchemyapi.com/calls/data/GetNews?apikey=' + self.apikey + '&return=enriched.url.enrichedTitle.docSentiment&start=' + startunix + '&end=' + endunix + '&q.enriched.url.enrichedTitle.entities.entity=|text=' + self.company + ',type=company|&q.enriched.url.enrichedTitle.taxonomy.taxonomy_.label=finance&count=25&outputMode=json'
 		#Request the data
 		self.raw = requests.get(url)
 	
@@ -61,10 +65,17 @@ class NewsAPI:
 				times.append(timeszzz)
 		return times
 
-	def getSentiment(self):
+	def getSentimentScore(self):
 		sentiment = []
 		for sent in self.results:
 			sentimentzzz = sent['source']['enriched']['url']['enrichedTitle']['docSentiment']['score']
+			sentiment.append(sentimentzzz)
+		return sentiment
+
+	def getSentimentType(self):
+		sentiment = []
+		for sent in self.results:
+			sentimentzzz = sent['source']['enriched']['url']['enrichedTitle']['docSentiment']['type']
 			sentiment.append(sentimentzzz)
 		return sentiment
 		
