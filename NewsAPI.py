@@ -1,7 +1,9 @@
 #1.  call the default constructor: variable = NewsAPI.NewsAPI(1,1,2015,3,1,2015,'GOOGLE','35b806d26e76f895fe31669dea30f528c36c94e6')
 #2.  try to get data : variable.startGetData(), it will returns success if it is works or error (Check API key if it returns error)
-#3.  get the sentiment score in list format double: variable.getTimeStamp()
-#4.  get the price in list format double: variable.getSentiment()
+#3.  get the sentiment score in list format double: variable.getSentiment()
+#4.  get the closing price in list format double: variable.getClosingPrice(). For now, closing price will return 0 if the news date is on the weekend or holiday
+#5.  install yahoo-finance API: pip install yahoo-finance
+
 
 #Verison 1.0: Only do the NewsAPI (Get only the sentimentscore and timestamp)
 #Version 1.1: Get the stock price
@@ -85,13 +87,9 @@ class NewsAPI:
 	 	startDate=''
 	 	endDate=''
 	 	hist=''
-	 	# print self.company
-	 	# print self.times
-	 	# return shareName
 	 	for t in self.times:
 	 		startDate = str(datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d'))
-	 		endDate=startDate
-	 		print startDate
+	 		endDate = startDate
 	 		hist = shareName.get_historical(startDate, endDate)
 	 		if(len(hist)==0):
 	 			closingPrice = '0'
