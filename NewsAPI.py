@@ -3,6 +3,7 @@
 #3.  get the sentiment score in list format double: variable.getSentiment()
 #4.  get the closing price in list format double: variable.getClosingPrice(). For now, closing price will return 0 if the news date is on the weekend or holiday
 #5.  install yahoo-finance API: pip install yahoo-finance
+#6.  another API Key for Alchemy: 56283d7d6075b9d30773e1ceb440e1b2d029f438
 
 
 #Verison 1.0: Only do the NewsAPI (Get only the sentimentscore and timestamp)
