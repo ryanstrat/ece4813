@@ -1,7 +1,7 @@
 #1.  call the default constructor: variable = NewsAPI.NewsAPI(1,1,2015,3,1,2015,'GOOGLE','35b806d26e76f895fe31669dea30f528c36c94e6')
 #2.  try to get data : variable.startGetData(), it will returns success if it is works or error (Check API key if it returns error)
 #3.  get the sentiment score in list format double: variable.getSentiment()
-#4.  get the closing price in list format double: variable.getClosingPrice(). For now, closing price will return 0 if the news date is on the weekend or holiday
+#4.  get the closing price in list format double: variable.getDifferencePrice(). For now, difference price will return 0 if the news date is on the weekend or holiday
 #5.  install yahoo-finance API: pip install yahoo-finance
 #6.  another API Key for Alchemy: 56283d7d6075b9d30773e1ceb440e1b2d029f438
 
@@ -82,7 +82,7 @@ class NewsAPI:
 			sentiment.append(sentimentzzz)
 		return sentiment
 		
-	def getDifference(self):
+	def getDifferencePrice(self):
 	 	changing = []
 	 	shareName = Share(self.company)
 	 	for t in self.times:
