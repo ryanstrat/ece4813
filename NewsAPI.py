@@ -82,20 +82,19 @@ class NewsAPI:
 			sentiment.append(sentimentzzz)
 		return sentiment
 		
-	def getClosingPrice(self):
-	 	closing = []
+	def getDifference(self):
+	 	changing = []
 	 	shareName = Share(self.company)
-	 	startDate=''
-	 	endDate=''
-	 	hist=''
 	 	for t in self.times:
 	 		startDate = str(datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d'))
 	 		endDate = startDate
 	 		hist = shareName.get_historical(startDate, endDate)
 	 		if(len(hist)==0):
-	 			closingPrice = '0'
-	 			closing.append(closingPrice)
+	 			closingPrice = 0
+	 			changing.append(0)
 	 		else:	
 	 			closingPrice = hist[0]['Close']
-	 			closing.append(closingPrice)
-	 	return closing
+	 			openingPrice = hist[0]['Open']
+	 			difference = float(closingPrice)-float(openingPrice)
+	 			changing.append(difference)
+	 	return changing
