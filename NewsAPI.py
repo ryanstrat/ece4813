@@ -66,6 +66,7 @@ class NewsAPI:
 		for time in self.results:
 				timeszzz = time['timestamp']
 				times.append(timeszzz)
+		self.times = times
 		return times
 
 	def getSentimentScore(self):
