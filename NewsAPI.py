@@ -97,26 +97,20 @@ class NewsAPI:
 	 		yesterdayDate=str(datetime.datetime.fromtimestamp(yesterdayTimeStamp).strftime('%Y-%m-%d'))
 	 		todayHist = shareName.get_historical(startDate, startDate)
 	 		yesterdayHist = shareName.get_historical(yesterdayDate,yesterdayDate)
-	 		# print "startDate =" + startDate
-	 		# print "yesterdayDate = " + yesterdayDate
-	 		# print hist
 	 		while(len(todayHist)==0):
 	 			todayTimeStamp = todayTimeStamp+86400
 	 			startDate = str(datetime.datetime.fromtimestamp(todayTimeStamp).strftime('%Y-%m-%d'))
 	 			todayHist = shareName.get_historical(startDate, startDate)
-	 			# print "startDateInside =" + startDate
-	 			# print "len inside= " + str(len(todayHist))
-	 			# print '%.5f' % difference
+	 		
 	 		while(len(yesterdayHist)==0):
 	 			yesterdayTimeStamp= yesterdayTimeStamp-86400
 				yesterdayDate=str(datetime.datetime.fromtimestamp(yesterdayTimeStamp).strftime('%Y-%m-%d'))
 	 			yesterdayHist = shareName.get_historical(yesterdayDate,yesterdayDate)
-	 			# print "yesterdayDateInside =" + yesterdayDate
-	 			# print "len inside= " + str(len(todayHist))
+	 			
 	 		closingPriceToday = float(todayHist[0]['Close'])
 	 		closingPriceYesterday = float(yesterdayHist[0]['Close'])
 	 		difference = (float(closingPriceYesterday) - float(closingPriceToday))*100.0/float(closingPriceYesterday)
 	 		diff2 = float(format(difference, '.3f'))
-	 		# print '%.5f' % difference
+	 		
 	 		closing.append(diff2)
 	 	return closing
