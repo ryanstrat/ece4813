@@ -96,6 +96,6 @@ class NewsAPI:
 	 		else:	
 	 			closingPrice = hist[0]['Close']
 	 			openingPrice = hist[0]['Open']
-	 			difference = float(closingPrice)-float(openingPrice)
+	 			difference = (float(closingPrice)-float(openingPrice))/float(openingPrice)*100
 	 			changing.append(difference)
 	 	return changing
