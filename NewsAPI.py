@@ -35,6 +35,9 @@ class NewsAPI:
 		self.rawjson = ''
 		self.results = ''
 		self.times = ''
+		self.timeString = ''
+		self.sentimentScore = ''
+		self.differencePercentage = ''
 	#Try to get the data
 	def startGetData(self):
 		start = datetime.date(self.ys,self.ms,self.ds)
@@ -63,17 +66,22 @@ class NewsAPI:
 
 	def getTimeStamp(self):
 		times = []
+		timesString = []
 		for time in self.results:
 				timeszzz = time['timestamp']
 				times.append(timeszzz)
+				timeStr = str(datetime.datetime.fromtimestamp(timeszzz).strftime('%Y-%m-%d'))
+				timesString.append(timeStr)
 		self.times = times
-		return times
+		self.timeString = timesString
+		return timesString
 
 	def getSentimentScore(self):
 		sentiment = []
 		for sent in self.results:
 			sentimentzzz = sent['source']['enriched']['url']['enrichedTitle']['docSentiment']['score']
 			sentiment.append(sentimentzzz)
+		self.sentimentScore = sentiment
 		return sentiment
 
 	def getSentimentType(self):
@@ -86,6 +94,7 @@ class NewsAPI:
 	def getDifferencePercentage(self):
 	 	closing = []
 	 	shareName = Share(self.company)
+	 	self.getTimeStamp()
 	 	# shareName = Share('AMZN')
 	 	startDate=''
 	 	endDate=''
@@ -97,20 +106,44 @@ class NewsAPI:
 	 		yesterdayDate=str(datetime.datetime.fromtimestamp(yesterdayTimeStamp).strftime('%Y-%m-%d'))
 	 		todayHist = shareName.get_historical(startDate, startDate)
 	 		yesterdayHist = shareName.get_historical(yesterdayDate,yesterdayDate)
+	 		# print "startDate =" + startDate
+	 		# print "yesterdayDate = " + yesterdayDate
+	 		# print hist
 	 		while(len(todayHist)==0):
 	 			todayTimeStamp = todayTimeStamp+86400
 	 			startDate = str(datetime.datetime.fromtimestamp(todayTimeStamp).strftime('%Y-%m-%d'))
 	 			todayHist = shareName.get_historical(startDate, startDate)
-	 		
+	 			# print "startDateInside =" + startDate
+	 			# print "len inside= " + str(len(todayHist))
+	 			# print '%.5f' % difference
 	 		while(len(yesterdayHist)==0):
 	 			yesterdayTimeStamp= yesterdayTimeStamp-86400
 				yesterdayDate=str(datetime.datetime.fromtimestamp(yesterdayTimeStamp).strftime('%Y-%m-%d'))
 	 			yesterdayHist = shareName.get_historical(yesterdayDate,yesterdayDate)
-	 			
+	 			# print "yesterdayDateInside =" + yesterdayDate
+	 			# print "len inside= " + str(len(todayHist))
 	 		closingPriceToday = float(todayHist[0]['Close'])
 	 		closingPriceYesterday = float(yesterdayHist[0]['Close'])
 	 		difference = (float(closingPriceYesterday) - float(closingPriceToday))*100.0/float(closingPriceYesterday)
 	 		diff2 = float(format(difference, '.3f'))
-	 		
+	 		# print '%.5f' % difference
 	 		closing.append(diff2)
+	 	self.differencePercentage = closing
 	 	return closing
+	 def output(self):
+		a = self.getTimeStamp()
+		b = self.getSentimentScore()
+		c = self.getDifferencePercentage()
+		timeStamp = np.array(a)
+		d = np.array(b)
+		sentiment = np.around(d,decimals = 3)
+		difference = np.array(c)
+		uniqueTimeStamp, indices = np.unique(timeStamp,return_index = True)
+		finalArray = []
+		for i in uniqueTimeStamp:
+			index = timeStamp==i
+			sent = np.average(sentiment[index])
+			diff = difference[index]
+			arrayTemp = [round(diff[0],2),np.around(sent,decimals = 3)]
+			finalArray.append(arrayTemp)
+		return finalArray
