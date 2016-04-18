@@ -1,9 +1,14 @@
-#1.  call the default constructor: variable = NewsAPI.NewsAPI(1,1,2015,3,1,2015,'GOOGLE','35b806d26e76f895fe31669dea30f528c36c94e6')
+#1.  call the default constructor: variable = variable = NewsAPI.NewsAPI(2,1,2015,4,11,2016,'BP','35b806d26e76f895fe31669dea30f528c36c94e6')
 #2.  try to get data : variable.startGetData(), it will returns success if it is works or error (Check API key if it returns error)
 #3.  get the sentiment score in list format double: variable.getSentiment()
 #4.  get the Difference price percentage in list format double: variable.getDifferencePercentage(). For now, difference price will return 0 if the news date is on the weekend or holiday
 #5.  install yahoo-finance API: pip install yahoo-finance
 #6.  another API Key for Alchemy: 56283d7d6075b9d30773e1ceb440e1b2d029f438
+
+# Final Output
+#1. BPData = variable = NewsAPI.NewsAPI(2,1,2015,4,11,2016,'BP','35b806d26e76f895fe31669dea30f528c36c94e6')
+#2. BPData.startGetData()
+#3. BPData.output()
 
 
 #Verison 1.0: Only do the NewsAPI (Get only the sentimentscore and timestamp)
@@ -131,7 +136,11 @@ class NewsAPI:
 	 		closing.append(diff2)
 	 	self.differencePercentage = closing
 	 	return closing
+	 	
 	def output(self):
+		csvFile = csv.writer(open("OutputFile.csv","w"))
+
+
 		a = self.getTimeStamp()
 		b = self.getSentimentScore()
 		c = self.getDifferencePercentage()
@@ -141,10 +150,12 @@ class NewsAPI:
 		difference = np.array(c)
 		uniqueTimeStamp, indices = np.unique(timeStamp,return_index = True)
 		finalArray = []
+
 		for i in uniqueTimeStamp:
 			index = timeStamp==i
 			sent = np.average(sentiment[index])
 			diff = difference[index]
 			arrayTemp = [round(diff[0],2),np.around(sent,decimals = 3)]
+			csvFile.writerow([round(diff[0],2),sent])
 			finalArray.append(arrayTemp)
 		return finalArray
