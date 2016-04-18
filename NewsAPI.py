@@ -15,6 +15,7 @@ import time
 import datetime
 from yahoo_finance import Share
 from pprint import pprint
+import numpy as np
 
 class NewsAPI:
 	#Default Constructor
