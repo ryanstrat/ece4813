@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from datetime import *
 app = Flask(__name__)
 
 
@@ -14,9 +15,8 @@ def getPrediction():
 	end = request.args['end']
 	company = request.args['company']
 
-	print start
-	print end
-	print company
+	startDate =  datetime.strptime(start, "%m/%d/%Y").date()
+	endDate =  datetime.strptime(end, "%m/%d/%Y").date()
 
 	return "True"
 
