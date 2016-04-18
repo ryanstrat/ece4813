@@ -131,7 +131,7 @@ class NewsAPI:
 	 		closing.append(diff2)
 	 	self.differencePercentage = closing
 	 	return closing
-	 def output(self):
+	def output(self):
 		a = self.getTimeStamp()
 		b = self.getSentimentScore()
 		c = self.getDifferencePercentage()
