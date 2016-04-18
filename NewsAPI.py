@@ -21,6 +21,7 @@ import datetime
 from yahoo_finance import Share
 from pprint import pprint
 import numpy as np
+import csv
 
 class NewsAPI:
 	#Default Constructor
