@@ -140,8 +140,6 @@ class NewsAPI:
 	 	
 	def output(self):
 		csvFile = csv.writer(open("OutputFile.csv","w"))
-
-
 		a = self.getTimeStamp()
 		b = self.getSentimentScore()
 		c = self.getDifferencePercentage()
