@@ -21,7 +21,7 @@ def CustomPredict(date_start, date_end, company):
 
     api = NewsAPI.NewsAPI(date_start.month,date_start.day,date_start.year,date_end.month,date_end.day,date_end.year, company,'56283d7d6075b9d30773e1ceb440e1b2d029f438')
 
-    sameModel = LinearRegressionModel.load(sc, "/"+company)
+    sameModel = LinearRegressionModel.load(sc, company)
 
     l = api.getSentimentScore()
 
