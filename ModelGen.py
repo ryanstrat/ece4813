@@ -8,7 +8,7 @@ from pyspark.mllib.regression import LabeledPoint, LinearRegressionWithSGD, Line
 
 if __name__ == "__main__":
 
-    sc = SparkContext(appName="ModelGen")
+    sc = SparkContext(appName="Model")
 
     # $example on$
     # Load and parse the data
@@ -21,3 +21,5 @@ if __name__ == "__main__":
 
     # Build the model
     model = LinearRegressionWithSGD.train(parsedData, iterations=5, step=0.1)
+
+    sameModel = LinearRegressionModel.load(sc, "BAC")

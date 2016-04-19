@@ -9,7 +9,9 @@ $( document ).ready(function() {
 	$('#stockForm').submit(function(event){
 		event.preventDefault();
 
-		$.get("/api/prediction", $('#stockForm').serialize());
+		$.get("/api/prediction", $('#stockForm').serialize()).done(function(data){
+			console.log(data);
+		});
 	});
 
 	updateGraph($("#companySelect").val());

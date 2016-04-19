@@ -16,18 +16,21 @@ import datetime
 
 def CustomPredict(date_start, date_end, company):
 
-    sc = SparkContext(appName="ModelPredict")
+    sc = SparkContext(appName="Model")
 
 
     api = NewsAPI.NewsAPI(date_start.month,date_start.day,date_start.year,date_end.month,date_end.day,date_end.year, company,'56283d7d6075b9d30773e1ceb440e1b2d029f438')
 
-    sameModel = LinearRegressionModel.load(sc, company)
-
+    model = LinearRegressionModel.load(sc, company)
+    api.startGetData()
+    
     l = api.getSentimentScore()
 
     mean_sent = np.mean(l)
-
-    return model.predict([mean_sent])
+    print ("\n\n\n\n\n" + str(mean_sent) + "\n\n\n\n\n")
+    pred = model.predict([mean_sent])
+    print ("\n\n\n\n\n" + str(pred) + "\n\n\n\n\n")
+    return pred
 
 '''
     # $example on$
