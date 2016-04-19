@@ -12,14 +12,19 @@ $( document ).ready(function() {
 		$.get("/api/prediction", $('#stockForm').serialize());
 	});
 
-	//ctx = document.getElementById("stockPrice").getContext("2d");
-	//var stockChart = new Chart(ctx).Line([]], options);
+	updateGraph($("#companySelect").val());
+
+	$("#companySelect").change(function(event){
+		updateGraph($("#companySelect").val());
+	})
 
 });
 
-function populateChart(data) {
-	data = [];
-	var stockChart = new Chart(ctx).Line(data, options);
+
+
+function updateGraph(company) {
+	src = "https://chart.yahoo.com/z?s=" + company + "&t=6m&q=l&l=on&z=s&p=m50"
+	$("#stockGraph").attr('src',src);
 }
 
 
