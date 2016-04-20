@@ -2,7 +2,8 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from datetime import *
-from prediction import *
+#from prediction import *
+import time
 
 app = Flask(__name__)
 
@@ -17,10 +18,12 @@ def getPrediction():
 	end = request.args['end']
 	company = request.args['company']
 
-	startDate = datetime.datetime.strptime(start, "%m/%d/%Y").date()
-	endDate =  datetime.datetime.strptime(end, "%m/%d/%Y").date()
+	startDate = datetime.strptime(start, "%m/%d/%Y").date()
+	endDate =  datetime.strptime(end, "%m/%d/%Y").date()
 
 	prediction = CustomPredict(startDate, endDate, company);
+	#prediction = 1
+	#time.sleep(10);
 
 	print prediction
 	return str(prediction)

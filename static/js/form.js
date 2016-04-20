@@ -1,5 +1,6 @@
 var ctx;
 var options = [];
+var progress = 0;
 
 $( document ).ready(function() {
 	$('.input-daterange').datepicker({
@@ -9,9 +10,22 @@ $( document ).ready(function() {
 	$('#stockForm').submit(function(event){
 		event.preventDefault();
 
-		$.get("/api/prediction", $('#stockForm').serialize()).done(function(data){
+		$("#output").hide();
+
+		$("#progress-container").show();
+		var progressBarUpdater = window.setInterval(advanceProgressBar, 250);
+
+		$.get("/api/prediction", $('#stockForm').serialize())
+		.done(function(data){
 			console.log(data);
+			$("#progress-container").hide();
+			progress = 0;
+			advanceProgressBar();
+			window.clearInterval(progressBarUpdater);
+
+			displayResult(data);
 		});
+
 	});
 
 	updateGraph($("#companySelect").val());
@@ -29,4 +43,24 @@ function updateGraph(company) {
 	$("#stockGraph").attr('src',src);
 }
 
+function advanceProgressBar() {
+	$bar = $("div.progress-bar");
+	if(progress > 100) progress = 100;
+	$bar.css("width", progress + "%");
+	progress = progress + 2.5;
+}
 
+function displayResult(data) {
+	$output = $("#output");
+	$outputHeader = $("#output h3");
+	$outputText = $("#outputText")
+
+	if (data > 0) {
+		$outputText.text("Stocks will be rising!");
+		$outputHeader.removeClass("text-danger").addClass("text-success");
+	} else {
+		$outputText.text("Stocks will be falling");
+		$outputHeader.removeClass("text-success").addClass("text-danger");
+	}
+	$output.show();
+}
