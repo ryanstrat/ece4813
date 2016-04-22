@@ -30,6 +30,7 @@ def CustomPredict(date_start, date_end, company):
     print ("\n\n\n\n\n" + str(mean_sent) + "\n\n\n\n\n")
     pred = model.predict([mean_sent])
     print ("\n\n\n\n\n" + str(pred) + "\n\n\n\n\n")
+    sc.stop()
     return pred
 
 '''

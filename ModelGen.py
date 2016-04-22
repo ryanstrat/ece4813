@@ -1,4 +1,4 @@
-from __future__ import print_function
+'''from __future__ import print_function
 
 
 from pyspark import SparkContext
@@ -22,4 +22,4 @@ if __name__ == "__main__":
     # Build the model
     model = LinearRegressionWithSGD.train(parsedData, iterations=5, step=0.1)
 
-    sameModel = LinearRegressionModel.load(sc, "BAC")
+    sameModel = LinearRegressionModel.load(sc, "BAC")'''
