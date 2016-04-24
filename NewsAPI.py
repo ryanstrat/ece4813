@@ -67,7 +67,7 @@ class NewsAPI:
 		if (self.rawjson['status'] == 'ERROR'):
 			return 'cannot fetch data'
 		else:	
-			if (self.rawjson.has_key('result') == True):
+			if (self.rawjson['result'].has_key('docs') == True):
 				self.results = self.rawjson['result']['docs']
 				return 'success'
 			else:
