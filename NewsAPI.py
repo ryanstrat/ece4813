@@ -8,7 +8,8 @@
 # Final Output
 #1. BPData = variable = NewsAPI.NewsAPI(2,1,2015,4,11,2016,'BP','35b806d26e76f895fe31669dea30f528c36c94e6')
 #2. BPData.startGetData()
-#3. BPData.output()
+#3. Make the condition statement to check if it is returning 'success' or not
+#4. BPData.output()
 
 
 #Verison 1.0: Only do the NewsAPI (Get only the sentimentscore and timestamp)
@@ -57,20 +58,21 @@ class NewsAPI:
 		#Request the data
 		self.raw = requests.get(url)
 	
-		#I will change with for loop, so that we can have a set number of try to get the info given the response is taking long
-		
+		#Error handling
 		while (self.raw.status_code != 200):
 			sleep(1)
 			
 		self.rawjson = self.raw.json()
 		
 		if (self.rawjson['status'] == 'ERROR'):
-			return 'Cannot Get the DATA'
+			return 'cannot fetch data'
 		else:	
-			self.results = self.rawjson['result']['docs']
-			return 'success'
-
-
+			if (self.rawjson['result'].has_key('docs') == True):
+				self.results = self.rawjson['result']['docs']
+				return 'success'
+			else:
+				return 'empty data'
+	#Extract the timestamp from the alchemyapi
 	def getTimeStamp(self):
 		times = []
 		timesString = []
@@ -82,7 +84,7 @@ class NewsAPI:
 		self.times = times
 		self.timeString = timesString
 		return timesString
-
+	#Get the sentiment score from the alchemyapi [-1,1]
 	def getSentimentScore(self):
 		sentiment = []
 		for sent in self.results:
@@ -90,14 +92,14 @@ class NewsAPI:
 			sentiment.append(sentimentzzz)
 		self.sentimentScore = sentiment
 		return sentiment
-
+	#Get the sentiment type whether if: possitive, neutral, or negative	
 	def getSentimentType(self):
 		sentiment = []
 		for sent in self.results:
 			sentimentzzz = sent['source']['enriched']['url']['enrichedTitle']['docSentiment']['type']
 			sentiment.append(sentimentzzz)
 		return sentiment
-		
+	#Get the difference percentage of closing price from yahoofinanceapi		
 	def getDifferencePercentage(self):
 	 	closing = []
 	 	shareName = Share(self.company)
@@ -137,7 +139,7 @@ class NewsAPI:
 	 		closing.append(diff2)
 	 	self.differencePercentage = closing
 	 	return closing
-	 	
+	#call the overall function and return the csv file of preprocessed data for training the machine learning 	
 	def output(self):
 		csvFile = csv.writer(open("OutputFile.csv","w"))
 		a = self.getTimeStamp()
@@ -149,7 +151,7 @@ class NewsAPI:
 		difference = np.array(c)
 		uniqueTimeStamp, indices = np.unique(timeStamp,return_index = True)
 		finalArray = []
-
+		#Find each unique value
 		for i in uniqueTimeStamp:
 			index = timeStamp==i
 			sent = np.average(sentiment[index])

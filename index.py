@@ -1,9 +1,11 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import jsonify
 from datetime import *
 from prediction import *
 import time
+
 
 app = Flask(__name__)
 
@@ -26,7 +28,7 @@ def getPrediction():
 	#time.sleep(10);
 
 	print prediction
-	return str(prediction)
+	return jsonify(prediction=prediction)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', debug=True)
