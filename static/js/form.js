@@ -17,13 +17,12 @@ $( document ).ready(function() {
 
 		$.get("/api/prediction", $('#stockForm').serialize())
 		.done(function(data){
-			console.log(data);
 			$("#progress-container").hide();
 			progress = 0;
 			advanceProgressBar();
 			window.clearInterval(progressBarUpdater);
 
-			displayResult(data);
+			displayResult(data['prediction']);
 		});
 
 	});
@@ -51,12 +50,14 @@ function advanceProgressBar() {
 }
 
 function displayResult(data) {
+	console.log(data);
+
 	$output = $("#output");
 	$outputHeader = $("#output h3");
 	$outputText = $("#outputText");
 	$outputIcon = $("#output .glyphicon");
 
-	if (data > 0) {
+	if (data < 0) {
 		$outputText.text("Stocks will be rising!");
 		$outputHeader.removeClass("text-danger").addClass("text-success");
 		$outputIcon.removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-top")
