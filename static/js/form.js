@@ -55,7 +55,7 @@ function displayResult(data) {
 	$outputHeader = $("#output h3");
 	$outputText = $("#outputText")
 
-	if (data > 0) {
+	if (data < 0) {
 		$outputText.text("Stocks will be rising!");
 		$outputHeader.removeClass("text-danger").addClass("text-success");
 	} else {
