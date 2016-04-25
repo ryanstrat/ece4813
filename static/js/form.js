@@ -4,7 +4,8 @@ var progress = 0;
 
 $( document ).ready(function() {
 	$('.input-daterange').datepicker({
-		autoclose: true
+		autoclose: true,
+    daysOfWeekDisabled: '06'
 	});
 
 	$('#stockForm').submit(function(event){
